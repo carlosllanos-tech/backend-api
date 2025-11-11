@@ -26,4 +26,10 @@ app.get('/info', (request, response) => {
     });
 });
 
+//Importar Rutas
+const authRoutes = require('./routes/auth.routes');
+
+//Usar Ruta
+app.use('/api/v1/auth', authRoutes);
+
 module.exports = app;
