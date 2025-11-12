@@ -45,6 +45,37 @@ class UsuarioModel {
         }
     }
 
+    static async findById(id) {
+        try {
+            const query = `
+            SELECT 
+                u.id,
+                u.nombre,
+                u.apellido,
+                u.email,
+                u.telefono,
+                u.activo,
+                u.rol_id,
+                r.nombre as rol_nombre,
+                r.descripcion as rol_descripcion,
+                u.creado_en,
+                u.actualizado_en
+            FROM usuarios u
+            JOIN roles r ON u.rol_id = r.id
+            WHERE u.id = $1
+            `;
+            const result = await pool.query(query, [id]);
+            
+            if(result.rows.length === 0) {
+                return null;
+            }
+
+            return result.rows[0];
+        } catch(error) {
+            throw new Error(`Error al buscar usuario por email: ${error.message}`);
+        }
+    }
+
 }
 
 module.exports = UsuarioModel;

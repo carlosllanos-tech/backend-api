@@ -88,6 +88,45 @@ class AuthControllers {
         }
     }
 
+    static async getPerfil(req = request, res = response) {
+        try {
+            const usuario = await UsuarioModel.findById(req.usuario.id);
+            if(!usuario) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'usuario no encontrado',
+                });
+            }          
+            const usuarioRespuesta = {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido,
+                email: usuario.email,
+                telefono: usuario.telefono,
+                activo: usuario.activo,
+                rol: {
+                    id: usuario.rol_id,
+                    nombre: usuario.rol_nombre,
+                    descripcion: usuario.rol_descripcion
+                },
+                creado_en: usuario.creado_en,
+                actualizado_en: usuario.actualizado_en
+            }
+
+            res.status(200).json({
+                success: true,
+                data: usuarioRespuesta
+            })
+
+        } catch(error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Error al obtener perfil',
+                error: error.message
+            });
+        }
+    }
+
 }
 
 module.exports = AuthControllers;
