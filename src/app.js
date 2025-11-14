@@ -28,8 +28,12 @@ app.get('/info', (request, response) => {
 
 //Importar Rutas
 const authRoutes = require('./routes/auth.routes');
+const usuariosRoutes = require('./routes/usuarios.routes');
+const torneosRoutes = require('./routes/torneos.routes');
 
-//Usar Ruta
+//Usar ruta
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/usuarios', usuariosRoutes);
+app.use('/api/v1/torneos', torneosRoutes);
 
 module.exports = app;
